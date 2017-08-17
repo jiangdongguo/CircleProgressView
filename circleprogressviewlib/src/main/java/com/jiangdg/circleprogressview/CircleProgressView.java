@@ -9,6 +9,8 @@ import android.graphics.RectF;
 import android.graphics.SweepGradient;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.text.DecimalFormat;
@@ -40,6 +42,7 @@ public class CircleProgressView extends View {
     private int outsideCircleBgColor;
     private int progressArcBgColor;
     private int insideCircleBgColor;
+    private int insideCircleTouchedBgColor;
     private int insideRectangleBgColor;
     private float tipTextSize;
     private int tipTextColor;
@@ -47,20 +50,33 @@ public class CircleProgressView extends View {
     private int progress;
     private int totalSize;
     private boolean isShowTextTip;
+    private boolean isTouched;
+    // 点击事件回调
+    private OnViewClickListener listener;
 
     public CircleProgressView(Context context) {
         super(context);
+    }
+
+    public interface OnViewClickListener{
+        void onViewClick();
+    }
+
+    // 点击事件回调
+    public void setOnViewClickListener(OnViewClickListener listener){
+        this.listener = listener;
     }
 
     public CircleProgressView(Context context, AttributeSet attrs) {
         super(context, attrs);
         // 获取自定义属性
         TypedArray ta = context.obtainStyledAttributes(attrs,R.styleable.CircleProgressView);
-        outsideCircleBgColor = ta.getColor(R.styleable.CircleProgressView_outsideCircleBgColor,Color.WHITE);
-        progressArcBgColor = ta.getColor(R.styleable.CircleProgressView_progressArcBgColor,Color.GRAY);
-        insideCircleBgColor = ta.getColor(R.styleable.CircleProgressView_insideCircleBgColor,Color.RED);
-        insideRectangleBgColor = ta.getColor(R.styleable.CircleProgressView_insideRectangleBgColor,Color.RED);
-        tipTextColor = ta.getColor(R.styleable.CircleProgressView_tipTextColor,Color.WHITE);
+        outsideCircleBgColor = ta.getColor(R.styleable.CircleProgressView_outsideCircleBgColor,getResources().getColor(R.color.colorWhite));
+        progressArcBgColor = ta.getColor(R.styleable.CircleProgressView_progressArcBgColor,getResources().getColor(R.color.colorGray));
+        insideCircleBgColor = ta.getColor(R.styleable.CircleProgressView_insideCircleBgColor,getResources().getColor(R.color.colorRed));
+        insideCircleTouchedBgColor = ta.getColor(R.styleable.CircleProgressView_insideCircleTouchedBgColor,getResources().getColor(R.color.colorDeepRed));
+        insideRectangleBgColor = ta.getColor(R.styleable.CircleProgressView_insideRectangleBgColor,getResources().getColor(R.color.colorRed));
+        tipTextColor = ta.getColor(R.styleable.CircleProgressView_tipTextColor,getResources().getColor(R.color.colorWhite));
         tipTextSize = ta.getDimension(R.styleable.CircleProgressView_tipTextSize,34);
         ta.recycle();
 
@@ -88,6 +104,21 @@ public class CircleProgressView extends View {
     }
 
     @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(listener == null)
+            return super.onTouchEvent(event);
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            isTouched = true;
+        }else if(event.getAction() == MotionEvent.ACTION_UP){
+            isTouched = false;
+            // 松开手时，处理触摸事件
+            listener.onViewClick();
+        }
+        this.invalidate();
+        return true;
+    }
+
+    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // 调用setMeasuredDimension
@@ -104,7 +135,7 @@ public class CircleProgressView extends View {
             width = specSize;
         }else {
             // 默认大小
-            width = 140;
+            width = 200;
             // wrap_content
             if(specMode == MeasureSpec.AT_MOST){
                 width = Math.min(width,specSize);
@@ -122,7 +153,7 @@ public class CircleProgressView extends View {
             height = specSize;
         }else {
             // 默认大小
-            height = 140;
+            height = 200;
             // wrap_content
             if(specMode == MeasureSpec.AT_MOST){
                 height = Math.min(height,specSize);
@@ -148,10 +179,16 @@ public class CircleProgressView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawOutSideCircle(canvas);
+
         if(STAE_DONE == state){
             drawInternelRectangle(canvas);
         }else{
-            drawInternelCircle(canvas);
+            if(isTouched){
+                drawInternelCircle(canvas,insideCircleTouchedBgColor);
+            }else{
+                drawInternelCircle(canvas,insideCircleBgColor);
+            }
+            // 绘制弧形进度条
             if(STAE_DOING == state){
                 drawProgressArc(canvas);
             }
@@ -167,10 +204,10 @@ public class CircleProgressView extends View {
         canvas.drawCircle(circleX,circleY,radius,mPaint);
     }
 
-    private void drawInternelCircle(Canvas canvas){
+    private void drawInternelCircle(Canvas canvas,int colorType){
         mPaint.setStrokeWidth(2);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(insideCircleBgColor);
+        mPaint.setColor(colorType);
         mPaint.setAntiAlias(true);
         canvas.drawCircle(circleX,circleY,(float) (radius-radius*0.15),mPaint);
     }

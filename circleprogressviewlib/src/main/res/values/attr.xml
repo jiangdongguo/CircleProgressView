@@ -7,6 +7,7 @@
         <attr name="progressArcBgColor" format="color|reference"/>
         <!--内部圆形颜色-->
         <attr name="insideCircleBgColor" format="color|reference"/>
+        <attr name="insideCircleTouchedBgColor" format="color|reference"/>
         <!--内部正方形颜色-->
         <attr name="insideRectangleBgColor" format="color|reference"/>
 

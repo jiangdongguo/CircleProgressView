@@ -5,6 +5,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -15,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private final int WHAT_STOP = 0x01;
     private final int WHAT_RUNNING = 0x02;
     private CircleProgressView mProgressView;
+    private CircleProgressView mProgressView1;
+    private CircleProgressView mProgressView2;
     private int progress;
     private Handler mHandler = new Handler(){
         @Override
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+    private int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +43,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mProgressView = (CircleProgressView) findViewById(R.id.progressView);
-//        mProgressView.setTotalSize(100);
-//        mProgressView.setShowTextTipFlag(true);
+        mProgressView1 = (CircleProgressView) findViewById(R.id.progressView1);
+        mProgressView2 = (CircleProgressView) findViewById(R.id.progressView2);
+
+        mProgressView1.setOnViewClickListener(new CircleProgressView.OnViewClickListener() {
+            @Override
+            public void onViewClick() {
+                mProgressView1.setConnectState(CircleProgressView.STAE_DOING);
+                mProgressView1.setTotalSize(100);
+                mProgressView1.setShowTextTipFlag(true);
+                mProgressView1.setProgressVaule(i);
+                i++;
+            }
+        });
+
+        mProgressView.setOnViewClickListener(new CircleProgressView.OnViewClickListener() {
+            @Override
+            public void onViewClick() {
+                mProgressView.setConnectState(CircleProgressView.STAE_DOING);
+                mProgressView.setProgressVaule(CircleProgressView.NONE);
+
+                mProgressView1.setConnectState(CircleProgressView.STAE_DOING);
+                mProgressView1.setTotalSize(100);
+                mProgressView1.setShowTextTipFlag(true);
+                mProgressView1.setProgressVaule(30);
+
+                mProgressView2.setConnectState(CircleProgressView.STAE_DONE);
+            }
+        });
 
         mProgressView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressView.setConnectState(CircleProgressView.STAE_DOING);
-                mProgressView.setProgressVaule(CircleProgressView.NONE);
 //                new Thread(new Runnable() {
 //                    @Override
 //                    public void run() {
