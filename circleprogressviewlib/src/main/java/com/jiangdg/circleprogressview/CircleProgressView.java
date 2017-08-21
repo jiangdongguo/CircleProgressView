@@ -22,11 +22,11 @@ import java.text.DecimalFormat;
 
 public class CircleProgressView extends View {
     // 状态正在进行
-    public static int STAE_DOING = 0;
+    public static int STATE_DOING = 0;
     // 状态操作完成
-    public static int STAE_DONE = 1;
+    public static int STATE_DONE = 1;
     // 状态操作未完成或初始状态
-    public static int STAE_UNDONE = 2;
+    public static int STATE_UNDONE = 2;
 
     public static int NONE = -1;
 
@@ -172,7 +172,7 @@ public class CircleProgressView extends View {
         circleY = mWidth/2;
         radius = mWidth / 2;
         // 设置默认状态
-        state = STAE_UNDONE;
+        state = STATE_UNDONE;
     }
 
     @Override
@@ -180,7 +180,7 @@ public class CircleProgressView extends View {
         super.onDraw(canvas);
         drawOutSideCircle(canvas);
 
-        if(STAE_DONE == state){
+        if(STATE_DONE == state){
             drawInternelRectangle(canvas);
         }else{
             if(isTouched){
@@ -189,7 +189,7 @@ public class CircleProgressView extends View {
                 drawInternelCircle(canvas,insideCircleBgColor);
             }
             // 绘制弧形进度条
-            if(STAE_DOING == state){
+            if(STATE_DOING == state){
                 drawProgressArc(canvas);
             }
         }
