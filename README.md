@@ -18,7 +18,7 @@ allprojects {
 (2) 在module的gradle中添加
 ```
 dependencies {
-	   compile 'com.github.jiangdongguo:CircleProgressView:v1.0'
+	   compile 'com.github.jiangdongguo:CircleProgressView:v1.0.1'
 }
 ```
 
@@ -48,6 +48,19 @@ mCircleView.setProgressVaule(10);
 mCircleView.setShowTextTipFlag(true);
 // 状态为执行完毕
 mCircleView.setConnectState(CircleProgressView.STAE_DONE);
+```  
+```  
+// 添加点击事件监听，点击动画  
+  mProgressView1.setOnViewClickListener(new CircleProgressView.OnViewClickListener() {
+            @Override
+            public void onViewClick() {
+                mProgressView1.setConnectState(CircleProgressView.STAE_DOING);
+                mProgressView1.setTotalSize(100);
+                mProgressView1.setShowTextTipFlag(true);
+                mProgressView1.setProgressVaule(i);
+                i++;
+            }
+        });
 ```
 
 (2) XML文件配置  
