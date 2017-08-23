@@ -81,3 +81,5 @@ mCircleView.setConnectState(CircleProgressView.STATE_DONE);
             custom:tipTextColor="@color/white_color"  // 进度百分比字体颜色
             custom:tipTextSize="14sp"/> // 进度百分比字体大小
 ```
+  
+csdn博文地址：http://blog.csdn.net/andrexpert/article/details/77511996
