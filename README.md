@@ -1,7 +1,7 @@
 # CircleProgressView
 **自定义圆形进度条控件**
 
-![image](http://img.blog.csdn.net/20170816235829591)
+![image](http://img.blog.csdn.net/20170823211900753?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQW5kckV4cGVydA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
 **1. 添加依赖**  
 
