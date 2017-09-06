@@ -53,6 +53,7 @@ public class CircleProgressView extends View {
     private boolean isTouched;
     // 点击事件回调
     private OnViewClickListener listener;
+    private boolean isDisabled;
 
     public CircleProgressView(Context context) {
         super(context);
@@ -105,7 +106,7 @@ public class CircleProgressView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(listener == null)
+        if(listener == null || isDisabled())
             return super.onTouchEvent(event);
         if(event.getAction() == MotionEvent.ACTION_DOWN){
             isTouched = true;
@@ -160,6 +161,14 @@ public class CircleProgressView extends View {
             }
         }
         return height;
+    }
+
+    public boolean isDisabled() {
+        return isDisabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        isDisabled = disabled;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.jiangdg.connectbutton;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.jiangdg.circleprogressview.CircleProgressView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private final int WHAT_START = 0x00;
     private final int WHAT_STOP = 0x01;
     private final int WHAT_RUNNING = 0x02;
@@ -24,13 +25,13 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case WHAT_START:
-                    mProgressView.setConnectState(CircleProgressView.STAE_DOING);
+                    mProgressView.setConnectState(CircleProgressView.STATE_DOING);
                     break;
                 case WHAT_RUNNING:
                     mProgressView.setProgressVaule(progress);
                     break;
                 case WHAT_STOP:
-                    mProgressView.setConnectState(CircleProgressView.STAE_DONE);
+                    mProgressView.setConnectState(CircleProgressView.STATE_DONE);
                     break;
             }
         }
@@ -43,58 +44,41 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mProgressView = (CircleProgressView) findViewById(R.id.progressView);
+        mProgressView.setShowTextTipFlag(true);
+        mProgressView.setTotalSize(100);
         mProgressView1 = (CircleProgressView) findViewById(R.id.progressView1);
         mProgressView2 = (CircleProgressView) findViewById(R.id.progressView2);
 
-        mProgressView1.setOnViewClickListener(new CircleProgressView.OnViewClickListener() {
-            @Override
-            public void onViewClick() {
-                mProgressView1.setConnectState(CircleProgressView.STAE_DOING);
-                mProgressView1.setTotalSize(100);
-                mProgressView1.setShowTextTipFlag(true);
-                mProgressView1.setProgressVaule(i);
-                i++;
-            }
-        });
 
         mProgressView.setOnViewClickListener(new CircleProgressView.OnViewClickListener() {
             @Override
             public void onViewClick() {
-                mProgressView.setConnectState(CircleProgressView.STAE_DOING);
-                mProgressView.setProgressVaule(CircleProgressView.NONE);
-
-                mProgressView1.setConnectState(CircleProgressView.STAE_DOING);
-                mProgressView1.setTotalSize(100);
-                mProgressView1.setShowTextTipFlag(true);
-                mProgressView1.setProgressVaule(30);
-
-                mProgressView2.setConnectState(CircleProgressView.STAE_DONE);
-            }
-        });
-
-        mProgressView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mHandler.sendEmptyMessage(WHAT_START);
-//                        while (progress<100){
-//                            try {
-//                                Thread.sleep(100);
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
-//                            progress++;
-//                            mHandler.sendEmptyMessage(WHAT_RUNNING);
-//                            if(progress == 100){
-//                                progress = 0;
-//                                mHandler.sendEmptyMessage(WHAT_STOP);
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }).start();
+                // 第3个
+                mProgressView2.setConnectState(CircleProgressView.STATE_DONE);
+                // 第2个
+                mProgressView1.setConnectState(CircleProgressView.STATE_DOING);
+                mProgressView1.setProgressVaule(CircleProgressView.NONE);
+                // 第1个
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mHandler.sendEmptyMessage(WHAT_START);
+                        while (progress<100){
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            progress++;
+                            mHandler.sendEmptyMessage(WHAT_RUNNING);
+                            if(progress == 100){
+                                progress = 0;
+                                mHandler.sendEmptyMessage(WHAT_STOP);
+                                break;
+                            }
+                        }
+                    }
+                }).start();
             }
         });
     }
