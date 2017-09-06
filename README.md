@@ -18,7 +18,7 @@ allprojects {
 (2) 在module的gradle中添加
 ```
 dependencies {
-    compile 'com.github.jiangdongguo:CircleProgressView:v1.02'
+    compile 'com.github.jiangdongguo:CircleProgressView:v1.03'
 }
 ```
 
