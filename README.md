@@ -1,7 +1,7 @@
 # CircleProgressView
 **自定义圆形进度条控件**
 
-![image](http://img.blog.csdn.net/20170816235829591)
+![image](http://img.blog.csdn.net/20170823212530295)
 
 **1. 添加依赖**  
 
@@ -18,7 +18,7 @@ allprojects {
 (2) 在module的gradle中添加
 ```
 dependencies {
-	   compile 'com.github.jiangdongguo:CircleProgressView:v1.0.1'
+    compile 'com.github.jiangdongguo:CircleProgressView:v1.02'
 }
 ```
 
@@ -29,9 +29,9 @@ dependencies {
 没有具体数值的进度条  
 ```
 // 设置状态为连接中，此外，
-// CircleProgressView.STAE_UNDONE为失败恢复到默认
-// CircleProgressView.STAE_DONE为成功执行完毕
-mCircleView.setConnectState(CircleProgressView.STAE_DOING);
+// CircleProgressView.STATE_UNDONE为失败恢复到默认
+// CircleProgressView.STATE_DONE为成功执行完毕
+mCircleView.setConnectState(CircleProgressView.STATE_DOING);
 // 设置风格为没有具体数值进度条
 mCircleView.setProgressVaule(CircleProgressView.NONE);
 
@@ -39,7 +39,7 @@ mCircleView.setProgressVaule(CircleProgressView.NONE);
 有具体数据的进度条
 ```  
 // 状态为进行中
-mCircleView.setConnectState(CircleProgressView.STAE_DOING);
+mCircleView.setConnectState(CircleProgressView.STATE_DOING);
 // 进度条最大值，可设置其他具体值
 mCircleView.setTotalSize(100);
 // 进度条当前值，可设置其他具体值
@@ -47,14 +47,14 @@ mCircleView.setProgressVaule(10);
 // 中间显示进度百分比文本
 mCircleView.setShowTextTipFlag(true);
 // 状态为执行完毕
-mCircleView.setConnectState(CircleProgressView.STAE_DONE);
+mCircleView.setConnectState(CircleProgressView.STATE_DONE);
 ```  
 ```  
 // 添加点击事件监听，点击动画  
   mProgressView1.setOnViewClickListener(new CircleProgressView.OnViewClickListener() {
             @Override
             public void onViewClick() {
-                mProgressView1.setConnectState(CircleProgressView.STAE_DOING);
+                mProgressView1.setConnectState(CircleProgressView.STATE_DOING);
                 mProgressView1.setTotalSize(100);
                 mProgressView1.setShowTextTipFlag(true);
                 mProgressView1.setProgressVaule(i);
@@ -81,3 +81,5 @@ mCircleView.setConnectState(CircleProgressView.STAE_DONE);
             custom:tipTextColor="@color/white_color"  // 进度百分比字体颜色
             custom:tipTextSize="14sp"/> // 进度百分比字体大小
 ```
+  
+csdn博文地址：http://blog.csdn.net/andrexpert/article/details/77511996
