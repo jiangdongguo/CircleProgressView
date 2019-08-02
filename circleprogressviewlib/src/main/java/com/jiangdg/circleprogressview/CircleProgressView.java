@@ -90,6 +90,10 @@ public class CircleProgressView extends View {
         this.invalidate();
     }
 
+    public int getConnectState() {
+        return state;
+    }
+
     public void setProgressVaule(int progress){
         this.progress = progress;
         // 重新绘制View
